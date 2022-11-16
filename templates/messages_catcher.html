@@ -1,0 +1,146 @@
+{% from 'accounts_table.html' import initialAccountsTable %}
+{% from 'accounts_statistics.html' import initialAccountsStatistics %}
+{% from 'logging_field.html' import initialLoggingField %}
+
+{% extends "base.html" %} {% block content %}
+{{ initialAccountsStatistics(accounts_status, text) }}
+
+<div class="row">
+    <div class="col">
+        <form action="/messages_catcher" id="messages_catcher" method="POST">
+            <div style="overflow:scroll;height: 295px;" class="card shadow bg-body scroll_element">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col" style="font-size: 18px;">
+                            {{text.trigger_keyword}}
+    
+                            <input style="margin-top: 10px;" name="triger_keyword" class="form-control"> <br>
+                            <input name="triger_keyword" class="form-control"> <br>
+    
+                            <div id="first_col_body"></div>
+    
+                            <button type="button" id="add_to_first_col" style="width: 100% !important;" class="btn btn-outline-secondary stripped-button">+</button>
+                        </div>
+                        <div class="col" style="font-size: 18px;">
+                            <div class="row" style="height: 27.5px;">
+                                <div class="col">{{text.reply_chat}}</div>
+                                <div class="col" style="text-align: end; padding-right: 0px;">
+                                    <input style="height: 0px" type='checkbox' class='ios8-switch' name="reply" id='reply'>
+                                    <label for='reply'>&nbsp;</label>
+                                </div>
+                            </div>
+    
+                            <input style="margin-top: 10px;" name="message_to_reply" class="form-control"> <br>
+                            <input name="message_to_reply" class="form-control"> <br>
+    
+                            <div id="second_col_body"></div>
+    
+                            <button type="button" id="add_to_second_col" style="width: 100% !important;" class="btn btn-outline-secondary stripped-button">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    
+    <div class="col">
+        <div class="card shadow bg-body">
+            <div class="card-body">
+                <h5 class="card-title">{{text.h_settings}}</h5>
+    
+                <div class="mb-3 row" style="width: 114%; margin-top: 30px;">
+                    <label class="col-sm-7 col-form-label">{{text.forward_to}}</label>
+                    <div class="col-sm-4">
+                        <input name="forward_to_chat" id="forward_to_chat" placeholder="{{text.enter_chats_placeholder}}" style="float: right" type="text" class="form-control">
+                    </div>
+                </div>
+    
+                <div class="mb-3 row" style="width: 105%;margin-top: 5px;">
+                    <label class="col-sm-9 col-form-label">{{text.forward_from}} </label>
+                    <div class="col-sm-3">
+                        <button style="float: right" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#forward_from_modal">
+                    {{text.enter_chats}}
+                  </button>
+                    </div>
+                </div>
+    
+                <div class="mb-3 row" style="width: 105%;margin-top: 5px;">
+                    <label id="show_accounts_counts" class="col-sm-9 col-form-label">{{text.c_accounts}} </label>
+                    <div class="col-sm-3">
+                        <button style="float: right" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    {{text.choose}}
+                  </button>
+                    </div>
+                </div>
+    
+                {{ initialAccountsTable(accounts, text) }}
+                
+            <!-- Chats modal -->
+            <div class="modal fade" id="forward_from_modal" tabindex="-1" aria-labelledby="forward_from_modalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" style="max-width: 780px;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            {{text.chat_forward_from}}
+                            <button type="button" id="close_forward_from_modal" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+    
+                            <div class="form-floating">
+                                <textarea name="forward_from_chats" id="forward_from_chats" class="form-control" style="height: 400px"></textarea>
+                            </div>
+    
+                        </div>
+                        <button type="button" data-bs-dismiss="modal" aria-label="Close" style="margin: -1px" class="btn start-button btn-lg">{{text.okey}}</button>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+        <button type="submit" id="start_form" class="btn start-button btn-lg">{{text.start}}</button>
+    </div>
+    </div>
+</div>
+
+</form>
+
+{{ initialLoggingField(text) }}
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+    <div id="no_selected_accounts" style="background-color:#F8D7DA; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                {{text.forgot_accounts}}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+  </div>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+    <div id="forgot_chats" style="background-color:#F8D7DA; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                {{text.forgot_chats}}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+  </div>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+    <div id="script_ending" style="background-color:#D1E7DD; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                {{text.script_ending}}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+<script>
+    const workWithoutProxy = `{{working_without_proxy}}` == "True"
+</script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/logging.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/accounts_table.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/accounts_filter.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/messages_catcher.js') }}"></script>
+{% endblock %}

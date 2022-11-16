@@ -1,0 +1,22 @@
+[Info] Start subs subs booster - 2021-12-01 22:08:55.786246
+[Info] Start account (without proxy) - 2021-12-01 22:08:55.787245
+[Info] Start account (without proxy) - 2021-12-01 22:08:55.788246
+[Info] Start account (without proxy) - 2021-12-01 22:08:55.789246
+[Info] Start account (without proxy) - 2021-12-01 22:08:55.796246
+[Info] Start account (without proxy) - 2021-12-01 22:08:55.802244
+[Info] Start account (without proxy) - 2021-12-01 22:08:55.803246
+[Info] Start account (without proxy) - 2021-12-01 22:08:55.804246
+[Info] Start account (without proxy) - 2021-12-01 22:08:55.805245
+[Info] Start account (without proxy) - 2021-12-01 22:08:55.808245
+[Info] Start account (without proxy) - 2021-12-01 22:08:55.809246
+[Info] Accounts complete - 2021-12-01 22:08:55.809246
+[Info] Join to group - 2021-12-01 22:08:59.417779
+[Info] Join to group - 2021-12-01 22:09:04.952202
+[Info] Join to group - 2021-12-01 22:09:08.695833
+[Info] Join to group - 2021-12-01 22:09:14.347662
+[Info] Join to group - 2021-12-01 22:09:17.982492
+[Info] Join to group - 2021-12-01 22:09:22.511672
+[Info] Join to group - 2021-12-01 22:09:27.063141
+[Info] Join to group - 2021-12-01 22:09:30.580696
+[Info] Join to group - 2021-12-01 22:09:35.478584
+[Info] Join to group - 2021-12-01 22:09:40.102510

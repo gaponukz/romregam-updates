@@ -1,0 +1,409 @@
+{% from 'accounts_table.html' import initialAccountsTable %}
+{% from 'accounts_statistics.html' import initialAccountsStatistics %}
+{% from 'logging_field.html' import initialLoggingField %}
+
+{% extends "base.html" %} {% block content %}
+{{ initialAccountsStatistics(accounts_status, text) }}
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+    <div id="no_selected_accounts" style="background-color:#F8D7DA; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                {{text.forgot_accounts}}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+    <div id="forgot_message" style="background-color:#F8D7DA; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                {{text.forgot_message}}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+    <div id="forgot_audience" style="background-color:#F8D7DA; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                {{text.forgot_audience}}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+    <div id="script_ending" style="background-color:#D1E7DD; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                {{text.script_ending}}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-8">
+        <form action="/spammer" method="POST" id="spammer" enctype="multipart/form-data">
+            <div class="modal fade" id="bot_modal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+    
+                        <div class="modal-body" style="padding-top: 0px">
+                            <nav class="navbar navbar-expand-lg" style="padding-top: 0px; padding-bottom: 0px; padding-left: 0px; padding-right: 0px; width: 100%;">
+                                <div class="collapse navbar-collapse" id="navbarText">
+                                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                        <li class="nav-item">
+                                            <h6>{{text.postBot_reposter}}</h6>
+                                        </li>
+                                        <li class="nav-item">&nbsp&nbsp</li>
+                                    </ul>
+                                    <span class="navbar-text" style="margin-right: -10px;">
+                      <button type="button" class="btn btn-success btn-sm" id="apply_bot" style="padding: 3px; font-size: 12px; background-color: #13CE8B" data-bs-dismiss="modal" aria-label="Close">&nbsp {{text.apply}} &nbsp</button> &nbsp
+                      <button type="button" class="btn btn-outline-danger btn-sm" style="padding: 3px; font-size: 12px;" data-bs-dismiss="modal" aria-label="Close">&nbsp&nbsp {{text.close}} &nbsp&nbsp </button>  &nbsp
+                    </span>
+                                </div>
+                            </nav>
+                            <nav class="navbar" style="padding-top: 0px; padding-bottom: 0px; padding-left: 0px; padding-right: 0px; width: 100%;">
+                                <div class="collapse navbar-collapse" id="navbarText" style="display: flex; justify-content: flex-end !important">
+                                    <span class="navbar-text" style="width: 67%; margin-right: -50px;">
+                                    <div class="row" style="margin-bottom: -4px;margin-top: -2px;">
+                                        <div class="col" style="font-size: 14px; color: black;text-align: right !important;">{{text.randomise_loop}}</div>
+                                        <div class="col" style="margin-right:-110px;">
+                                            <input type='checkbox' style="margin-left: 40px;" class='ios8-switch' id='randomise_bot' name='randomise_bot' value='0'>
+                                            <label for='randomise_bot'>&nbsp;</label> <br>
+                                        </div>
+                                    </div>
+                                    </span>
+                                </div>
+                            </nav>
+                            <textarea name="bot_messages" id="bot_messages" style="height: 250px;margin-top: -1px;" class="form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="modal fade" id="reposter_modal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+    
+                        <div class="modal-body" style="padding-top: 0px">
+                            <nav class="navbar navbar-expand-lg" style="padding-top: 0px; padding-bottom: 0px; padding-left: 0px; padding-right: 0px; width: 100%;">
+                                <div class="collapse navbar-collapse" id="navbarText">
+                                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                        <li class="nav-item">
+                                            <h6>{{text.channel_reposter}}</h6>
+                                        </li>
+                                        <li class="nav-item">&nbsp&nbsp</li>
+                                    </ul>
+                                    <span class="navbar-text" style="margin-right: -10px;">
+                      <button type="button" class="btn btn-success btn-sm" id="apply_reposter" style="padding: 3px; font-size: 12px; background-color: #13CE8B" data-bs-dismiss="modal" aria-label="Close">&nbsp {{text.apply}} &nbsp</button> &nbsp
+                      <button type="button" class="btn btn-outline-danger btn-sm" style="padding: 3px; font-size: 12px;" data-bs-dismiss="modal" aria-label="Close">&nbsp&nbsp {{text.close}} &nbsp&nbsp </button>  &nbsp
+                    </span>
+                                </div>
+                            </nav>
+                            <nav class="navbar" style="padding-top: 0px; padding-bottom: 0px; padding-left: 0px; padding-right: 0px; width: 100%;">
+                                <div class="collapse navbar-collapse" id="navbarText" style="display: flex; justify-content: flex-end !important">
+                                    <span class="navbar-text" style="width: 67%; margin-right: -50px;">
+    
+                      <div class="row" style="margin-bottom: -4px;margin-top: -2px;">
+                        <div class="col" style="font-size: 14px; color: black;text-align: right !important;">{{text.randomise_loop}}</div>
+                        <div class="col" style="margin-right:-110px;">
+                            <input type='checkbox' style="margin-left: 40px;" class='ios8-switch' id='randomise_reposter' name='randomise_reposter' value='0'>
+                            <label for='randomise_reposter'>&nbsp;</label> <br>
+                        </div>
+                    </div>
+    
+                    </span>
+                                </div>
+                            </nav>
+                            <textarea name="reposter_messages" id="reposter_messages" style="height: 250px;margin-top: -1px;" class="form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="modal fade" id="image_modal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+    
+                        <div class="modal-body" style="padding-top: 0px">
+                            <nav class="navbar navbar-expand-lg" style="padding-top: 0px; padding-bottom: 0px; padding-left: 0px; padding-right: 0px; width: 100%;">
+                                <div class="collapse navbar-collapse" id="navbarText">
+                                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                        <li class="nav-item">
+                                            <h6>{{text.insert_images}}</h6>
+                                        </li>
+                                        <li class="nav-item">&nbsp&nbsp</li>
+                                    </ul>
+                                    <span class="navbar-text" style="margin-right: -10px;">
+                      <button type="button" class="btn btn-success btn-sm" id="apply_images" style="padding: 3px; font-size: 12px; background-color: #13CE8B" data-bs-dismiss="modal" aria-label="Close">&nbsp {{text.apply}} &nbsp</button> &nbsp
+                      <button type="button" class="btn btn-outline-danger btn-sm" style="padding: 3px; font-size: 12px;" data-bs-dismiss="modal" aria-label="Close">&nbsp&nbsp {{text.close}} &nbsp&nbsp </button>  &nbsp
+                    </span>
+                                </div>
+                            </nav>
+                            <nav class="navbar" style="padding-top: 0px; padding-bottom: 0px; padding-left: 0px; padding-right: 0px; width: 100%;">
+                                <div class="collapse navbar-collapse" id="navbarText" style="display: flex;">
+                                    <button type="button" id="add_photos" style="margin-top: -15px;" class="btn btn-outline-primary">  Add photos </button> 
+                                    <span class="navbar-text" style="width: 67%; margin-right: -10px;">
+    
+                      <div class="row" style="margin-bottom: -4px;margin-top: -2px; margin-right: -200px;">
+                        <div class="col" style="font-size: 14px; color: black;display: flex; justify-content: flex-end !important">{{text.randomise_loop}}</div>
+                        <div class="col" style="margin-right:-110px;">
+                            <input type='checkbox' style="margin-left: 40px;" class='ios8-switch' id='randomise_images' name='randomise_images' value='0'>
+                            <label for='randomise_images'>&nbsp;</label> <br>
+                        </div>
+                    </div>
+                    </span>
+                                </div>
+                            </nav>
+                            <textarea name="images_list" id="images_list" style="height: 250px;margin-top: -1px;" class="form-control"></textarea>
+    
+                            <input type="file" hidden name="file" id="selected_photos" multiple />
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="card shadow bg-body">
+                <div class="card-body">
+                    <h6 class="card-title">{{text.working_with_text}}</h6>
+    
+                    <button id="bolt" style="padding-top: 1px;padding-bottom: 1px;" type="button" class="btn start-button btn-sm"> &nbsp; <img height="20px" width="20px" src="https://img.icons8.com/fluency-systems-filled/48/ffffff/bold.png"> &nbsp; </button>                &nbsp;
+                    <button id="italic" style="padding-top: 1px;padding-bottom: 1px;" type="button" class="btn start-button btn-sm"> &nbsp; <img height="20px" width="20px" src="https://img.icons8.com/fluency-systems-filled/48/ffffff/italic.png"> &nbsp; </button>                &nbsp;
+                    <button id="code" style="padding-top: 1px;padding-bottom: 1px;" type="button" class="btn start-button btn-sm"> &nbsp; <img height="20px" width="20px" src="https://img.icons8.com/fluency-systems-filled/24/ffffff/monospaced-font.png"> &nbsp; </button>                &nbsp;
+                    <button id="spoiler" style="padding-top: 1px;padding-bottom: 1px;" type="button" class="btn start-button btn-sm"> &nbsp; <img height="20px" width="20px" src="https://img.icons8.com/fluency-systems-filled/48/FFFFFF/cover-up.png"> &nbsp; </button>                &nbsp;
+                    <button id="url" style="padding-top: 1px;padding-bottom: 1px;" type="button" class="btn start-button btn-sm"> &nbsp; <img height="20px" width="20px" src="https://img.icons8.com/fluency-systems-filled/48/ffffff/add-font.png"> &nbsp; </button>                &nbsp;
+                    <button style="padding-top: 1px;padding-bottom: 1px;" type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#reposter_modal"> &nbsp; <img height="20px" width="20px" src="https://img.icons8.com/fluency-systems-filled/100/ffffff/undo--v1.png"> &nbsp; </button>                &nbsp;
+    
+                    <button id="post_image" style="padding-top: 1px;padding-bottom: 1px;" type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#image_modal"> &nbsp; <img height="20px" width="20px" src="https://img.icons8.com/fluency-systems-filled/100/ffffff/image-gallery.png"> &nbsp; </button>                &nbsp;
+    
+                    <button style="padding-top: 1px;padding-bottom: 1px;" data-bs-toggle="modal" data-bs-target="#bot_modal" type="button" class="btn btn-success btn-sm"> &nbsp; <img height="20px" width="20px" src="https://img.icons8.com/fluency-systems-filled/48/ffffff/mek-quake.png"> &nbsp; </button>                &nbsp;
+    
+                    <button id="last_message" style="padding-top: 1px;padding-bottom: 1px;" type="button" class="btn start-button btn-sm"> &nbsp; <img height="20px" width="20px" src="https://img.icons8.com/fluency-systems-filled/100/ffffff/restart.png"> &nbsp; </button>                &nbsp;
+                    <button id="clear" style="padding-top: 1px;padding-bottom: 1px;" type="button" class="btn start-button btn-sm"> &nbsp; <img height="20px" width="20px" src="https://img.icons8.com/fluency-systems-filled/100/ffffff/delete-forever.png"> &nbsp; </button>                &nbsp;
+    
+                    <br>
+                    <textarea id="message_input" name="message_input" style="height: 300px;margin-top: 10px;" class="form-control"></textarea>
+                </div>
+            </div>
+    </div>
+    <div class="col-4">
+        <div class="card shadow bg-body" style="height: 400px">
+            <div class="card-body scroll_element" style="overflow: scroll;overflow-x: hidden;">
+                <h6 class="card-title">{{text.display_message}}</h6>
+                <div class="text-center">
+                    <img id="image" src="https://cdn.logo.com/hotlink-ok/logo-social.png" class="img-thumbnail">
+                </div>
+                <p id="message"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-top: 20px;padding-right: 0px;">
+    <div class="col-6">
+        <form action="/inviter" method="POST" id="inviter">
+            <div class="card shadow bg-body">
+                <div class="card-body">
+                    <div class="container" style="padding-left: 0px; padding-right: 0px;">
+                        <div class="mb-3">
+                            <h5>{{text.users_list}} <label id="audience_number"></label>  </h5>
+
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="customFile">
+                                <label class="custom-file-label" for="customFile">{{text.load_txt_usernames}}</label>
+                            </div>
+
+                            <script>
+                                $(".custom-file-input").on("change", function() {
+                                    let fileName = $(this).val().split("\\").pop();
+                                    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+                                    let file = new FileReader()
+                                    file.onload = () => {
+                                        document.querySelector("#audience").value = file.result;
+                                    }
+
+                                    file.readAsText(this.files[0]);
+
+                                });
+                            </script>
+
+                        </div>
+                        <div class="form-floating">
+                            <textarea name="audience" id="audience" class="form-control" style="height: 505px;">{{previous_setting.audience}}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="col-6">
+        <div class="card shadow bg-body">
+            <div class="card-body">
+                <h5 class="card-title" style="margin-bottom: 1rem;">{{text.spammer_settings}}</h5>
+
+                <div class="row" style="margin-bottom: -15px;">
+                    <div class="col-7">
+                        <div id="randomise_text_symbols_block" >
+                            {{text.randomise_text_symbols}}
+                        </div>
+                        <div class="row" id="random_persent_block" style="display: none">
+                            <div class="col">
+                                <input type="range" min="0" max="100" value="21" style="width: 110%;" class="form-range online_time_able" id="random_persent" name="random_persent">
+                            </div>
+                            <div class="col">
+                                <span id="random_persent_number">21%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col" style="display: flex; justify-content: center; margin-left: 120px;">
+                        <input type='checkbox' style="margin-left: 40px;" class='ios8-switch' id='randimise_symbols' name='randimise_symbols' value='0'>
+                        <label for='randimise_symbols'>&nbsp;</label> <br>
+                    </div>
+                </div> <br>
+
+                <div class="row" style="margin-bottom: -15px;">
+                    <div class="col-7">
+                        <span id="text_send_via_channel">{{text.send_via_channel}}</span>
+                        <input name="channel_name" id="channel_name" style="margin-bottom: 15px; width: 300px; display: none;" placeholder="{{text.enter_channel_name}}" type="text" class="form-control"> 
+                    </div>
+                    <div class="col" style="display: flex; justify-content: center; margin-left: 120px;">
+                        <input type='checkbox' style="margin-left: 40px;" class='ios8-switch' id='send_via_channel' name='send_via_channel' value='0'>
+                        <label for='send_via_channel'>&nbsp;</label> <br>
+                    </div>
+                </div> <br>
+
+                <div class="mb-3 row" style="width: 114%;">
+                    <label class="col-sm-9 col-form-label">{{text.threads_count}}: </label>
+                    <div class="col-sm-2">
+                        <div class="quantity" style="float: right">
+                            <input type="number" class="form-control" name="threads_count" value="1" placeholder="thr" min="1"  step="1">
+                            <div class="quantity-nav">
+                                <div class="quantity-button quantity-up">+</div>
+                                <div class="quantity-button quantity-down">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3 row" style="width: 114%;">
+                    <label class="col-sm-9 col-form-label">{{text.sleep_seconds_before_threads}}: </label>
+                    <div class="col-sm-2">
+                        <div class="quantity" style="float: right">
+                            <input type="number" class="form-control" name="sleep_before_thread" value="1" placeholder="sec" min="1"  step="1">
+                            <div class="quantity-nav">
+                                <div class="quantity-button quantity-up">+</div>
+                                <div class="quantity-button quantity-down">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3 align-items-center" style="margin-bottom: -10px; width: 112.5%;">
+                    <div class="col-6">
+                        <label class="col-form-label">{{text.delay_from}}</label>
+                    </div>
+                    <div class="col-2">
+                        <div class="quantity">
+                            <input type="number" class="form-control" name="delay_between" value="1" placeholder="sec" min="1"  step="1">
+                            <div class="quantity-nav">
+                                <div class="quantity-button quantity-up">+</div>
+                                <div class="quantity-button quantity-down">-</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-1" style="text-align: center;">
+                        <label class="col-form-label">{{text.delay_to}}</label>
+                    </div>
+                    <div class="col-2">
+                        <div class="quantity" style="float: right">
+                            <input type="number" class="form-control" name="delay_to" value="2" placeholder="sec" min="2"  step="1">
+                            <div class="quantity-nav">
+                                <div class="quantity-button quantity-up">+</div>
+                                <div class="quantity-button quantity-down">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <br>
+
+                <div class="mb-3 row" style="width: 114%;">
+                    <label class="col-sm-9 col-form-label">{{text.messages_from_account}}: </label>
+                    <div class="col-sm-2">
+                        <div class="quantity" style="float: right">
+                            <input type="number" class="form-control" name="messages_from_account" value="1" placeholder="sec" min="1"  step="1">
+                            <div class="quantity-nav">
+                                <div class="quantity-button quantity-up">+</div>
+                                <div class="quantity-button quantity-down">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-bottom: -12px;margin-top: 18px;">
+                    <div class="col-7">
+                        {{text.change_accounts}}
+                    </div>
+                    <div class="col" style="display: flex; justify-content: center; margin-left: 120px;">
+                        <input type='checkbox' style="margin-left: 40px;" class='ios8-switch' id='change_accounts' name='change_accounts' value='0'>
+                        <label for='change_accounts'>&nbsp;</label> <br>
+                    </div>
+                </div> <br>
+
+                <div class="row" style="margin-bottom: -15px;">
+                    <div class="col-7">
+                        {{text.blacklist}}
+                    </div>
+                    <div class="col" style="display: flex; justify-content: center; margin-left: 120px;">
+                        <input type='checkbox' style="margin-left: 40px;" class='ios8-switch' id='blacklist' name='blacklist' value='0'>
+                        <label for='blacklist'>&nbsp;</label> <br>
+                    </div>
+                </div> <br>
+
+                <div class="row" style="margin-bottom: -15px;">
+                    <div class="col-7">
+                        {{text.save_unused_audiences}}
+                    </div>
+                    <div class="col" style="display: flex; justify-content: center; margin-left: 120px;">
+                        <input type='checkbox' style="margin-left: 40px;" class='ios8-switch' id='save_unused_audiences' name='save_unused_audiences' value='0'>
+                        <label for='save_unused_audiences'>&nbsp;</label> <br>
+                    </div>
+                </div> <br>
+
+                <div class="mb-3 row" style="width: 104.5%;">
+                    <label id="show_accounts_counts" class="col-sm-9 col-form-label">{{text.c_accounts}} </label>
+                    <div class="col-sm-3">
+                        <button style="float: right" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  {{text.choose}}
+                </button>
+                    </div>
+                </div>
+
+                {{ initialAccountsTable(accounts, text) }}
+
+        </div>
+        <button type="submit" class="btn start-button btn-lg">{{text.start}}</button>
+    </div>
+</div>
+</form>
+</div>
+
+
+{{ initialLoggingField(text) }}
+
+<script>
+    const workWithoutProxy = `{{working_without_proxy}}` == "True"
+  </script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/logging.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/spammer.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/accounts_filter.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/accounts_table.js') }}"></script>
+{% endblock %}

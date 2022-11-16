@@ -1,0 +1,24 @@
+2021-12-26 23:28:05.271 | INFO     | __main__:<module>:62 - script started
+2021-12-26 23:28:07.233 | DEBUG    | __main__:create_account:138 - 380959268357 connected
+2021-12-26 23:28:07.339 | DEBUG    | __main__:create_account:140 - SentCode(type=SentCodeTypeApp(length=5), phone_code_hash='369410338f989d3b88', next_type=None, timeout=None)
+2021-12-26 23:28:07.346 | DEBUG    | __main__:create_account:141 - 380959268357 send code
+2021-12-26 23:29:07.648 | ERROR    | __main__:create_account:162 - The code was not received
+2021-12-26 23:29:10.254 | DEBUG    | __main__:create_account:138 - 380959268534 connected
+2021-12-26 23:29:10.390 | DEBUG    | __main__:create_account:140 - SentCode(type=SentCodeTypeApp(length=5), phone_code_hash='5f15187179e907ed1c', next_type=None, timeout=None)
+2021-12-26 23:29:10.400 | DEBUG    | __main__:create_account:141 - 380959268534 send code
+2021-12-26 23:30:11.625 | ERROR    | __main__:create_account:162 - The code was not received
+2021-12-26 23:30:15.072 | DEBUG    | __main__:create_account:138 - 380959268229 connected
+2021-12-26 23:30:15.202 | DEBUG    | __main__:create_account:140 - SentCode(type=SentCodeTypeApp(length=5), phone_code_hash='98402fc8d59f96210f', next_type=None, timeout=None)
+2021-12-26 23:30:15.207 | DEBUG    | __main__:create_account:141 - 380959268229 send code
+2021-12-26 23:31:15.390 | ERROR    | __main__:create_account:162 - The code was not received
+2021-12-26 23:31:17.929 | DEBUG    | __main__:create_account:138 - 380990135102 connected
+2021-12-26 23:31:18.053 | ERROR    | __main__:create_account:143 - error: The used phone number has been banned from Telegram and cannot be used anymore. Maybe check https://www.telegram.org/faq_spam (caused by SendCodeRequest). Phone 380990135102 is banned
+2021-12-26 23:31:20.850 | DEBUG    | __main__:create_account:138 - 380663287529 connected
+2021-12-26 23:31:20.995 | DEBUG    | __main__:create_account:140 - SentCode(type=SentCodeTypeApp(length=5), phone_code_hash='eb7a0c576ff3b96bfe', next_type=None, timeout=None)
+2021-12-26 23:31:21.001 | DEBUG    | __main__:create_account:141 - 380663287529 send code
+2021-12-26 23:32:21.192 | ERROR    | __main__:create_account:162 - The code was not received
+2021-12-26 23:32:24.667 | DEBUG    | __main__:create_account:138 - 380954683038 connected
+2021-12-26 23:32:24.766 | ERROR    | __main__:create_account:143 - error: The used phone number has been banned from Telegram and cannot be used anymore. Maybe check https://www.telegram.org/faq_spam (caused by SendCodeRequest). Phone 380954683038 is banned
+2021-12-26 23:32:27.373 | DEBUG    | __main__:create_account:138 - 380990135989 connected
+2021-12-26 23:32:27.477 | DEBUG    | __main__:create_account:140 - SentCode(type=SentCodeTypeApp(length=5), phone_code_hash='dd4b24655be0f0fc26', next_type=None, timeout=None)
+2021-12-26 23:32:27.482 | DEBUG    | __main__:create_account:141 - 380990135989 send code

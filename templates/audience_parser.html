@@ -1,0 +1,321 @@
+{% from 'accounts_table.html' import initialAccountsTable %}
+{% from 'accounts_statistics.html' import initialAccountsStatistics %}
+{% from 'logging_field.html' import initialLoggingField %}
+
+{% extends "base.html" %} {% block content %}
+{{ initialAccountsStatistics(accounts_status, text) }}
+
+<div class="row">
+    <div class="col">
+        <form action="/audience_parser" method="POST" id="audience_parser" novalidate>
+            <div class="card shadow bg-body">
+                <div class="card-body">
+                    <div class="container" style="padding-left: 0px; padding-right: 0px;">
+                        <div class="mb-3">
+                            <h5> {{text.group_list}} <label id="groups_number"></label>  </h5>
+    
+                            <div class="custom-file">
+                                <input name="file_list" type="file" class="custom-file-input" id="customFile">
+                                <label class="custom-file-label" for="customFile"> {{text.load_txt_file}} </label>
+                            </div>
+    
+                            <script>
+                                // Add the following code if you want the name of the file appear on select
+                                $(".custom-file-input").on("change", function() {
+                                    let fileName = $(this).val().split("\\").pop();
+                                    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    
+                                    let file = new FileReader()
+                                    file.onload = () => {
+                                        document.querySelector("#text_list").value = file.result;
+                                    }
+    
+                                    file.readAsText(this.files[0]);
+    
+                                });
+                            </script>
+    
+    
+                        </div>
+                        <div class="form-floating">
+                            <textarea name="text_list" id="text_list" class="form-control" style="height: 427px">{{previous_setting.chats_list}}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="col">
+        <div class="card shadow bg-body">
+            <div class="card-body">
+    
+                <nav class="navbar navbar-expand-lg" style="padding-top: 0px; padding-bottom: 0px; padding-left: 0px; padding-right: 0px;">
+                    <div class="collapse navbar-collapse" id="navbarText" style="margin-top: -15px;">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li>
+                                <h5 style="margin-top: -10px" class="card-title"> {{text.audience}} </h5>
+                            </li>
+                        </ul>
+                        <span class="navbar-text">
+                  <ul class="nav nav-pills mb-3 justify-content-end" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button style="padding: 6px;" class="nav-link active btn-sm" id="pills-status-tab" data-bs-toggle="pill" data-bs-target="#pills-status" type="button" role="tab" aria-controls="pills-status" aria-selected="true">{{text.by_status}}</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button style="padding: 6px" class="nav-link btn-sm" id="pills-activity-tab" data-bs-toggle="pill" data-bs-target="#pills-activity" type="button" role="tab" aria-controls="pills-activity" aria-selected="false">{{text.by_activity}}</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button style="padding: 6px" class="nav-link btn-sm" id="pills-channel-tab" data-bs-toggle="pill" data-bs-target="#pills-channel" type="button" role="tab" aria-controls="pills-channel" aria-selected="false">{{text.in_channels}}</button>
+                      </li>
+                  </ul>
+                </span>
+                    </div>
+                </nav>
+    
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-status" role="tabpanel" aria-labelledby="pills-status-tab">
+    
+                        <div class="mb-3 row">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input type='checkbox' class='ios8-switch' name="simple_users" id='simple_users' value="0">
+                                        <label style="padding-top: 0px;display: initial;" for='simple_users'>{{text.users}}</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input type='checkbox' class='ios8-switch' name="admins" id='admins' value="0">
+                                        <label style="padding-top: 0px;display: initial;" for='admins'>{{text.admins}}</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input type='checkbox' class='ios8-switch' name="all_users" id='all_users' value="0">
+                                        <label style="padding-top: 0px;display: initial;" for='all_users'>{{text.all_users}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="container">
+                                <label for="customRange1" class="form-label">{{text.online_time}} <span id="textInput">13</span> <input name="hours" id="hours" class="form-check-input" type="checkbox" value="0"> {{text.hours}} <input name="days" id="days" class="form-check-input" type="checkbox" value="0"> {{text.days}})</label>
+                                <input type="range" min="1" max="24" class="form-range online_time_able" id="online_time" name="online_time">
+                            </div>
+                        </div>
+    
+                        <div class="mb-3 row">
+                            <label class="form-label">{{text.hidden_status}}:</label>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input type='checkbox' class='ios8-switch' name="online_recently" id='online_recently' value="0">
+                                        <label style="padding-top: 0px;display: initial;" for='online_recently'>{{text.recently}}</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input type='checkbox' class='ios8-switch' name="online_last_week" id='online_last_week' value="0">
+                                        <label style="padding-top: 0px;display: initial;" for='online_last_week'>{{text.last_week}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input type='checkbox' class='ios8-switch' name="online_last_month" id='online_last_month' value="0">
+                                        <label style="padding-top: 0px;display: initial;" for='online_last_month'>{{text.last_month}}</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input type='checkbox' class='ios8-switch' name="online_long_time" id='online_long_time' value="0">
+                                        <label style="padding-top: 0px;display: initial;" for='online_long_time'>{{text.long_time_ago}}</label>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+    
+                    <div class="tab-pane fade" id="pills-activity" role="tabpanel" aria-labelledby="pills-activity-tab">
+    
+                        <div class="mb-3 row" style="width: 114%;">
+                            <label class="col-sm-7 col-form-label">{{text.messages_count}} </label>
+                            <div class="col-sm-4">
+                                <div class="quantity" style="float: right; margin-right: 2px">
+                                    <input type="number" style="width: 150px;" class="form-control" name="messages_count" id="messages_count" value="0" placeholder="mes" min="0" >
+                                    <div class="quantity-nav">
+                                        <div class="quantity-button quantity-up">+</div>
+                                        <div class="quantity-button quantity-down">-</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="custom-file">
+                            <input name="file_list" type="file" class="custom-file-input" id="message_parser_file">
+                            <label class="custom-file-label" for="message_parser_file">{{text.load_keyword_file}}</label>
+                        </div> <br>
+    
+                        <script>
+                            // Add the following code if you want the name of the file appear on select
+                            $(".custom-file-input").on("change", function() {
+                                let fileName = $(this).val().split("\\").pop();
+                                $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    
+                                let file = new FileReader()
+                                file.onload = () => {
+                                    document.querySelector("#message_kewords").value = file.result;
+                                }
+    
+                                file.readAsText(this.files[0]);
+    
+                            });
+                        </script>
+                        <textarea name="message_kewords" id="message_kewords" style="height:133px; margin-top: 10px;" class="form-control"></textarea>
+                        <br>
+    
+                    </div>
+    
+                    <div class="tab-pane fade" id="pills-channel" role="tabpanel" aria-labelledby="pills-channel-tab">
+    
+                        <div class="mb-3 row" style="width: 114%;">
+                            <label class="col-sm-7 col-form-label">{{text.posts_count}} </label>
+                            <div class="col-sm-4">
+                                <div class="quantity" style="float: right; margin-right: 2px">
+                                    <input type="number" style="width: 150px;" class="form-control" name="posts_count" id="posts_count" value="0" placeholder="mes" min="1"/>
+                                    <div class="quantity-nav">
+                                        <div class="quantity-button quantity-up">+</div>
+                                        <div class="quantity-button quantity-down">-</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="mb-3 row" style="width: 114%;">
+                            <label class="col-sm-7 col-form-label">{{text.posts_timeout}} </label>
+                            <div class="col-sm-4">
+                                <div class="quantity" style="float: right; margin-right: 2px">
+                                    <input type="number" style="width: 150px;" class="form-control" name="posts_timeout" id="posts_timeout" value="0" placeholder="mes" min="0">
+                                    <div class="quantity-nav">
+                                        <div class="quantity-button quantity-up">+</div>
+                                        <div class="quantity-button quantity-down">-</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                    </div>
+    
+                </div>
+    
+                <!-- <div class="row" style="margin-bottom: -15px;">
+                    <div class="col">
+                        <span style="background-color: #2d76cc !important;" class="badge bg-success">New!</span> Non-bots accounts (using ml)
+                    </div>
+                    <div class="col-2" style="display: flex; justify-content: center; margin-left: 150px;">
+                        <input type='checkbox' style="margin-left: 40px;" class='ios8-switch' id='nonbots' name='nonbots' value='0'>
+                        <label for='nonbots' style="margin-right: -50px;">&nbsp;</label> <br>
+                    </div>
+                </div> <br> -->
+
+                <div class="row" style="margin-bottom: -15px;">
+                    <div class="col">
+                        {{text.leave_chat}}
+                    </div>
+                    <div class="col-2" style="display: flex; justify-content: left; margin-left: 150px;">
+                        <input type='checkbox' style="margin-left: 40px;" class='ios8-switch' id='leave_chat' name='leave_chat' value=''>
+                        <label for='leave_chat' style="margin-right: -78px;">&nbsp;</label> <br>
+                    </div>
+                </div> <br>
+    
+                <div class="row">
+                    <label id="show_accounts_counts" class="col-sm-9 col-form-label">{{text.c_accounts}} </label>
+                    <div class="col-sm-3" style="padding-left: 51px;">
+                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  {{text.choose}}
+                </button>
+                    </div>
+                </div>
+    
+                {{ initialAccountsTable(accounts, text) }}
+
+                <div class="row" style="margin-top: 12px;">
+                    <label class="col-sm-9 col-form-label">{{text.save_in_folder}}: </label>
+
+                    <div class="col-sm-3" style="padding-left: 51px;">
+                        <button id="download_result" type="button" style="height: 38px;" class="btn btn-outline-primary">
+                            <div class="stage" style="width: 53px;">
+                                <div class="dot-flashing"></div>
+                            </div>
+                            <label id="select_text" style="display: none;">&nbsp;{{text.select}}&nbsp;</label>
+                        </button>
+                    </div>
+                </div>
+                
+            </div>
+            
+        <button type="submit" id="start_form" class="btn start-button btn-lg">{{text.start}}</button>
+    </div>
+    </div>
+</div>
+
+</form>
+<script>
+    const workWithoutProxy = `{{working_without_proxy}}` == "True"
+</script>
+
+{{ initialLoggingField(text) }}
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+    <div id="error_message" style="background-color:#F8D7DA; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                {{text.forgot_chats}}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+    <div id="script_ending" style="background-color:#D1E7DD; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                {{text.script_ending}}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+    <div id="no_selected_accounts" style="background-color:#F8D7DA; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                {{text.forgot_accounts}}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+    <div id="no_status" style="background-color:#F8D7DA; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                {{text.no_status}}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/logging.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/accounts_table.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/accounts_filter.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/audience_parser.js') }}"></script>
+{% endblock %}
