@@ -1,0 +1,116 @@
+{% from 'accounts_statistics.html' import initialAccountsStatistics %}
+
+{% extends "base.html" %} {% block content %}
+{{ initialAccountsStatistics(accounts_status, text) }}
+
+<div class="row">
+    <div style="width: 32%">
+        <div class="card shadow bg-body">
+            <div class="card-body">
+                <div class="container" style="padding: 0px;">
+                    <div class="mb-3">
+                        <h5> {{ text.send_ticket }} </h5>
+                    </div>
+                    <div class="form-floating" style="margin-bottom: 15px;">
+                        <textarea id="comment" id="ticket" class="form-control" style="height: 242px"></textarea>
+                    </div>
+                    <input id="subject" placeholder="{{text.subject}}" type="text" class="form-control" style="margin-bottom: 15px;">
+                    <input id="gmail" placeholder="{{text.write_mail}}" type="text" class="form-control">
+                </div>
+            </div>
+            <button id="sendMessage" type="submit" class="btn start-button btn-lg"> {{ text.send }} </button>
+        </div>
+    </div>
+    
+    <div style="width: 32%">
+        <div class="card shadow bg-body">
+            <div class="card-body">
+                <div class="container" style="padding: 0px;">
+                    <div class="mb-3">
+                        <h5> {{ text.statistics }} </h5>
+                    </div>
+                    <div class="row" style="padding-bottom: 10px;">
+                        <div class="col-8"> {{ text.registered}} </div>
+                        <div class="col" style="text-align: right">{{statistics.accounts_registered}}</div>
+                    </div> <br>
+                    <div class="row" style="padding-bottom: 10px;">
+                        <div class="col-8"> {{ text.invited }} </div>
+                        <div class="col" style="text-align: right">{{statistics.invited}}</div>
+                    </div> <br>
+                    <div class="row" style="padding-bottom: 10px;">
+                        <div class="col-8"> {{ text.sent_messages }} </div>
+                        <div class="col" style="text-align: right">{{statistics.sent_messages}}</div>
+                    </div> <br>
+                    <div class="row" style="padding-bottom: 10px;">
+                        <div class="col-8"> {{ text.subs_boosted }} </div>
+                        <div class="col" style="text-align: right">{{statistics.subs_boosted}}</div>
+                    </div> <br>
+                    <div class="row" style="padding-bottom: 10px;">
+                        <div class="col-8"> {{ text.views_boosted }} </div>
+                        <div class="col" style="text-align: right">{{statistics.views_boosted}}</div>
+                    </div> <br>
+                    <div class="row" style="padding-bottom: 10px;">
+                        <div class="col"> {{ text.usernames_collected }} </div>
+                        <div class="col" style="text-align: right">{{statistics.usernames_collected}}</div>
+                    </div> <br>
+                    <div class="row">
+                        <div class="col-8"> {{ text.messages_responded }} </div>
+                        <div class="col" style="text-align: right">{{statistics.messges_collected}}</div>
+                    </div> <br>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div style="width: 36%">
+        <div class="card shadow bg-body" style="height: 470px">
+            <div class="card-body">
+                <div class="container" style="padding: 0px;">
+                    <div class="mb-3">
+                        <h5> {{ text.recent_updates }} </h5>
+                    </div>
+                    <div id="carouselExampleDark" class="carousel carousel-dark slide" style="height: 410px;" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                        </div>
+                        <div id="allNewsBlock" class="carousel-inner">
+                            <div id="mainNewsImageBlock" class="carousel-item active" data-bs-interval="10000">
+                                <div class="d-flex justify-content-center" style="margin-top: 150px">
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden"> {{ text.loading }}...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><br>
+    
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+    <div id="success_message" style="background-color:#D1E7DD; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                {{text.message_sent_successfully}}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow bg-body" style="margin-top: 10px; padding-top: 9px;padding-left: 15px;">
+    <div class="card-body" style="padding: 0px;">
+        <nav id="hide_one" class="navbar navbar-expand-lg">
+            <div class="collapse navbar-collapse" id="navbarText">
+                <h6 class="card-title">{{ text.activation_key }}: &nbsp <b id='activation_key'>{{key}}</b> &nbsp <img id="hidde_key" style="width: 25px; margin-top: -5px;" src="https://img.icons8.com/fluency-systems-filled/100/000000/invisible.png"> </h6>
+            </div>
+        </nav>
+    </div>
+</div>
+<script>
+    const key = `{{key}}`
+</script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/main.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,150 @@
+{% from 'accounts_statistics.html' import initialAccountsStatistics %}
+
+{% extends "base.html" %} {% block content %}
+{{ initialAccountsStatistics(accounts_status, text) }}
+
+<button type="button" id="proxies_stat_button" style="display: none" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#proxies_stat"></button>
+
+<!-- Proxies Statistics Modal -->
+<div class="modal fade" id="proxies_stat" tabindex="-1" aria-labelledby="proxies_statLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        {{text.check_result}}
+        <button type="button" id="close_proxies_stat_modal" style="display: none"class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-8">{{text.checked}}: </div>
+            <div class="col" style="text-align: right">
+              <label id="check_proxies_len">0</label>/<label id="proxies_len">0</label>
+            </div>
+        </div> <br>
+        <div class="row">
+          <div class="col-8">{{text.ready_work}}: </div>
+          <div class="col" id="ready_to_work_proxies_len" style="text-align: right">0</div>
+        </div> <br>
+        <div class="row">
+          <div class="col-8">{{text.not_connected}}: </div>
+          <div class="col" id="not_connected_proxies_len" style="text-align: right">0</div>
+        </div> <br>
+      </div>
+      <div class="modal-footer" style="padding-left: 0px; padding-right: 0px;">
+        <div class="row" style="width: 100%;">
+          <div class="col" style="color: red">{{text.remove_not_connected}}</div>
+          <div class="col">
+            <select id="remove_proxies_action" class="form-select form-select-sm" aria-label=".form-select-sm example">
+              <option value="false">{{text.no}}</option>
+              <option value="true">{{text.yes}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <button type="button" id="submit_proxies_action" style="margin: -1px" class="btn start-button btn-lg">{{text.okey}}</button>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <div class="card shadow bg-body" style="padding-top: 0px; padding-bottom: 0px; height: 430px; padding-left: 0px; padding-right: 0px">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding-top: 0px; padding-bottom: 0px; padding-left: 0px; padding-right: 0px">
+            <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0"><li></li></ul>
+                <span class="navbar-text">
+                <button class="btn btn-primary btn-sm" type="button" id="check_all_proxies" style="padding: 2px; background: linear-gradient(-90deg, #2d76cc 100%, #3066b5 0%);">&nbsp<img style="position: absolute; top: 52%; transform: translate(0, -50%);" width="20" height="20" src="https://img.icons8.com/fluency-systems-filled/48/ffffff/cellular-network.png"/>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp {{text.check_all_proxies}} &nbsp&nbsp</button>
+                <button class="btn btn-danger btn-sm" type="button" id="delete_all_proxies" style="padding: 2px; background: linear-gradient(-90deg, #DB513C 100%, #BF4237 0%);">&nbsp<img style="position: absolute; top: 52%; transform: translate(0, -50%);" width="20" height="20" src="https://img.icons8.com/fluency-systems-filled/100/ffffff/delete-forever.png"/>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp {{text.delete_all_proxies}} &nbsp&nbsp</button>&nbsp&nbsp
+                </span> &nbsp
+            </div>
+        </nav>
+        <div class="card-body" style="padding-top: 0px; padding-bottom: 0px; margin-top: 0px;">
+            <div style="position:relative;">
+                <div class="scroll_element" style="overflow:scroll;height:375px;">
+                <table id="proxies_table" class="table table-bordered table-sm">
+                  <tbody>
+                    <thead>
+                      <tr>
+                        <td >&nbsp&nbsp&nbsp&nbsp#&nbsp</td>
+                        <td style="text-align: center;">{{text.ip}}</td>
+                        <td style="text-align: center;">{{text.port}}</td>
+                        <td style="text-align: center;">{{text.type}}</td>
+                        <td style="text-align: center;">{{text.username}}</td>
+                        <td style="text-align: center;">{{text.password}}</td>
+                        <td style="text-align: center;">{{text.action}}</td>
+                      </tr>
+                    </thead>
+                    {%for proxy in proxies %}
+                      <tr>
+                        <td>{{proxy.index}}</td>
+                        <td>{{proxy.ip}}</td>
+                        <td>{{proxy.port}}</td>
+                        <td>{{proxy.type}}</td>
+                        <td>{{proxy.username}}</td>
+                        <td>{{proxy.password}}</td>
+                        <td>{%if proxy.type%}<button style="border: none; background: none; margin-right: -7px;" type="button" id="check_this_proxy"><img width="20" height="20" src="https://img.icons8.com/fluency-systems-filled/100/000000/cellular-network.png"/></button><button style="border: none; background: none;" type="button" id="delete_this_proxy"><img width="20" height="20" src="https://img.icons8.com/fluency-systems-filled/100/000000/delete-forever.png"/></button>{% else %} {% endif %}</td>
+                      </tr>
+                    {%endfor%}
+                  </tbody>
+                </table>
+               </div>
+              </div>
+        </div>
+    </div>
+    <br>
+
+    <div style="width: 70%; margin: auto;">
+        <div class="card shadow bg-body">
+          <div class="card-body" style="padding-top: 0px;">
+                <nav class="navbar navbar-expand-lg" style="padding-top: 0px; padding-bottom: 0px; padding-left: 0px; padding-right: 0px;">
+                  <div class="collapse navbar-collapse" id="navbarText" style="margin-right: -4px;">
+                  <ul class="navbar-nav me-auto mb-2 mb-lg-0"><li><h6 class="card-title">{{text.adding_proxy}}</h6></li></ul>
+                      <span class="navbar-text">
+                        <button id="clear_input" type="button" class="btn btn-outline-danger btn-sm" style="padding: 2px;">&nbsp&nbsp&nbsp&nbsp {{text.b_clear}} &nbsp&nbsp&nbsp&nbsp </button>  &nbsp
+                        <button id="add_proxies" class="btn btn-success btn-sm" style="padding: 2px; background: linear-gradient(-90deg, #23C490 100%, #16A975 0%);">&nbsp<img style="position: absolute; top: 52%; transform: translate(0, -52%);" width="20" height="20" src="https://img.icons8.com/fluency-systems-filled/48/ffffff/plus.png"/>&nbsp&nbsp &nbsp &nbsp &nbsp {{text.add_proxy}}  &nbsp&nbsp</button>&nbsp
+                      </span>
+                  </div>
+                </nav>
+              <div class="row" style="margin-top: 5px; padding-top: 0px; padding-bottom: 8px;">
+                <div class="col"><p style="left: 0px; font-size: 13px">{{text.type}} </p></div>
+                <div class="col">
+                  <select id="proxy_type" class="form-select" style="font-size: 12px;">
+                    <option value="http">Http(s)</option>
+                    <option value="socks5">Socks5</option>
+                    <option value="socks4">Socks4</option>
+                  </select>
+                </div>
+              </div>
+              <div class="custom-file" style="padding-bottom: 8px;">
+                <input  type="file" class="custom-file-input" id="customFile" style="height: 30px">
+                <label class="custom-file-label" for="customFile" style="font-size: 13px;">{{text.load_txt_proxies}}</label>
+              </div>
+              <script>
+                $(".custom-file-input").on("change", function() {
+                  var fileName = $(this).val().split("\\").pop();
+                  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                });
+              </script>
+              <div class="form-floating" style="padding-top: 8px;">
+                <textarea id="proxies" class="form-control" style="height: 285px"></textarea>
+              </div> 
+          </div>
+        </div>
+    </div>
+
+    <br>
+</div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+  <div id="proxies_added" style="background-color:#D1E7DD; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+          <div class="toast-body">
+              {{text.proxies_added}}
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/setting_proxy.js') }}"></script>
+{% endblock %}

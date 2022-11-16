@@ -1,0 +1,91 @@
+{% extends "chat_clonner.html" %}
+
+{% block clonner_settings %}
+<div class="row" style="margin-bottom: 40px;">
+    <div class="col-5">
+      <form action="/chat_posting" method="POST" id="chat_posting">
+      <div class="card shadow bg-body">
+        <div class="card-body">
+          <h5 class="card-title">{{text.collection_setting}}</h5>
+
+          <div class="mb-3 row" style="width: 114%;">
+            <label class="col-sm-6 col-form-label">{{text.chat_address}} </label>
+            <div class="col-sm-5">
+              <input name="chat_address" id="chat_address" placeholder="{{text.enter_chats_placeholder}}" style="float: right" type="text" class="form-control">
+            </div>
+          </div>
+
+          <div class="mb-3 row" style="width: 114%;">
+            <label class="col-sm-5 col-form-label">{{text.history_name}} </label>
+            <div class="col-sm-6">
+                <select id="history_file" name="history_file" class="form-select" style="margin-top: 5px;">
+                    <option>{{text.select_history_file}}</option>
+        
+                      {% for file in history_files %}
+                          <option value="{{file}}">{{file}}</option>
+                      {% endfor %}
+                  </select>
+            </div>
+        </div>
+
+          <div class="row g-3 align-items-center" style="display: flex; width: 113%;">
+              <div class="col-5">
+                <label class="col-form-label">{{text.delay_from}}</label>
+              </div>
+              <div class="col-2">
+                <div class="quantity">
+                  <input type="number" class="form-control" name="timeout_from" id="timeout_from" value="1" placeholder="sec" min="1" max="9999" step="1">
+                  <div class="quantity-nav">
+                    <div class="quantity-button quantity-up">+</div>
+                    <div class="quantity-button quantity-down">-</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-2" style="text-align: center;">
+                <label class="col-form-label">{{text.to}}</label>
+              </div>
+              <div class="col-2">
+                <div class="quantity" style="float: right; margin-right: 3px;">
+                  <input type="number" class="form-control" name="timeout_to" id="timeout_to" value="2" placeholder="sec" min="2" max="9999" step="1">
+                  <div class="quantity-nav">
+                    <div class="quantity-button quantity-up">+</div>
+                    <div class="quantity-button quantity-down">-</div>
+                  </div>
+                </div>
+              </div>
+            </div> <br>
+            
+      </div>
+      <button type="submit" class="btn start-button btn-lg">{{text.start}}</button>
+    </div>
+  </form>
+   </div>
+
+    <div class="col-7">
+        <div class="card shadow bg-body">
+            <div class="card-body">
+                <div class="container" style="padding-left: 0px; padding-right: 0px;">
+                  <h5 style="margin-top: -10px" class="card-title">{{text.logging}}</h5>
+                  <button type="button" class="btn btn-primary btn-sm" style="border: none !important; height: 27px; padding: 2px; background-color:  #2d76cc;right: 17px;top: 6px;position: absolute;" id="download_logs">&nbsp {{text.download}} &nbsp</button>
+                  <!-- <textarea id="logging" style="height:260px" disabled class="form-control"></textarea> -->
+                  <div id="logging" style="height: 380px;;overflow-y: auto;" disabled class="form-control"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+  <div id="script_ending" style="background-color:#D1E7DD; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+          <div class="toast-body">
+              {{text.script_ending}}
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/logging.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/chat_posting.js') }}"></script>
+{% endblock %}

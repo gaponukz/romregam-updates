@@ -1,0 +1,268 @@
+{% from 'accounts_table.html' import initialAccountsTable %}
+{% from 'accounts_statistics.html' import initialAccountsStatistics %}
+{% from 'logging_field.html' import initialLoggingField %}
+
+{% extends "base.html" %} {% block content %}
+{{ initialAccountsStatistics(accounts_status, text) }}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+  <div id="no_selected_accounts" style="background-color:#F8D7DA; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+          <div class="toast-body">
+              {{text.forgot_accounts}}
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+  </div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+  <div id="forgot_chats" style="background-color:#F8D7DA; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+          <div class="toast-body">
+              {{text.forgot_chats}}
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+  </div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+  <div id="threading_problem" style="background-color:#F8D7DA; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+          <div class="toast-body">
+              {{text.threading_problem}}
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <form action="/reaction_booster" method="POST" id="reaction_booster">
+      <div class="card shadow bg-body">
+        <div class="card-body">
+          <div class="container" style="padding-left: 0px; padding-right: 0px;">
+            <div class="mb-3">
+              <h5>{{text.groups_list}} <label id="groups_number"></label> </h5>
+  
+                <div class="custom-file">
+                  <input  type="file" class="custom-file-input" id="customFile">
+                  <label class="custom-file-label" for="customFile">{{text.load_txt_groups}}</label>
+                </div>
+              
+                <script>
+                  // Add the following code if you want the name of the file appear on select
+                  $(".custom-file-input").on("change", function() {
+                    let fileName = $(this).val().split("\\").pop();
+                    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    
+                    let file = new FileReader()
+                    file.onload =() => {
+                      document.querySelector("#text_list").value = file.result;
+                    }
+    
+                    file.readAsText(this.files[0]);
+    
+                  });
+  
+                  $(document).ready(function() {
+                      $('#selected_reactions').multiselect({
+                          includeSelectAllOption: true,
+                      });
+                      document.querySelector(".multiselect").style.right = "15px"
+                      document.querySelector(".multiselect").style.border = "1px solid #ced4da"
+                  });
+                </script>
+  
+            </div>
+            <div class="form-floating">
+              <textarea name="groups" id="groups" class="form-control" style="height: 460px;"> {{previous_setting.groups}} </textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="col">
+      <div class="card shadow bg-body">
+        <div class="card-body">
+          <h5 class="card-title">{{text.reaction_booster_settings}}</h5>
+          <div class="mb-3 row" id="number_threads_element" style="width: 114%;">
+            <label class="col-sm-7 col-form-label">{{text.number_threads}}: </label>
+            <div class="col-sm-4">
+              <div class="quantity" style="float: right">
+                <input type="number" class="form-control" name="number_of_threads" id="number_of_threads" value="1" placeholder="thr" step="1">
+                <div class="quantity-nav">
+                  <div class="quantity-button quantity-up">+</div>
+                  <div class="quantity-button quantity-down">-</div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="mb-3 row" id="sleep_seconds_before_threads_element" style="width: 114%;">
+            <label class="col-sm-9 col-form-label">{{text.sleep_seconds_before_threads}}: </label>
+            <div class="col-sm-2">
+              <div class="quantity" style="float: right">
+                <input type="number" class="form-control" name="sleep_before_thread" id="sleep_before_thread" value="1" placeholder="sec" step="1">
+                <div class="quantity-nav">
+                  <div class="quantity-button quantity-up">+</div>
+                  <div class="quantity-button quantity-down">-</div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row g-3 align-items-center" style="display: flex; width: 112.5%;">
+            <div class="col-6">
+              <label class="col-form-label">{{text.delay_between_reaction}}</label>
+            </div>
+            <div class="col-2">
+              <div class="quantity">
+                <input type="number" class="form-control" name="delay_between_reaction" id="delay_between_reaction" value="0" placeholder="sec">
+                <div class="quantity-nav">
+                  <div class="quantity-button quantity-up">+</div>
+                  <div class="quantity-button quantity-down">-</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-1" style="text-align: center;">
+              <label class="col-form-label">{{text.to}}</label>
+            </div>
+            <div class="col-2">
+              <div class="quantity" style="float: right">
+                <input type="number" class="form-control" name="delay_to_reaction" id="delay_to_reaction" value="1" placeholder="sec">
+                <div class="quantity-nav">
+                  <div class="quantity-button quantity-up">+</div>
+                  <div class="quantity-button quantity-down">-</div>
+                </div>
+              </div>
+            </div>
+          </div> <br>
+  
+          <div class="row g-3 align-items-center" style="display: flex; margin-top: -25px; width: 112.5%;">
+            <div class="col-6">
+              <label class="col-form-label">{{text.delay_between_entries}}</label>
+            </div>
+            <div class="col-2">
+              <div class="quantity">
+                <input type="number" class="form-control" name="delay_between_ent" id="delay_between_ent" value="0" placeholder="sec">
+                <div class="quantity-nav">
+                  <div class="quantity-button quantity-up">+</div>
+                  <div class="quantity-button quantity-down">-</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-1" style="text-align: center;">
+              <label class="col-form-label">{{text.to}}</label>
+            </div>
+            <div class="col-2">
+              <div class="quantity" style="float: right">
+                <input type="number" class="form-control" name="delay_to_ent" id="delay_to_ent" value="1" placeholder="sec">
+                <div class="quantity-nav">
+                  <div class="quantity-button quantity-up">+</div>
+                  <div class="quantity-button quantity-down">-</div>
+                </div>
+              </div>
+            </div>
+          </div> <br>
+  
+          <div class="mb-3 row" id="posts_to_react_element" style="margin-top: -8px; width: 114%;">
+            <label class="col-sm-9 col-form-label">{{text.posts_to_react}}: </label>
+            <div class="col-sm-2">
+              <div class="quantity" style="float: right">
+                <input type="number" class="form-control" name="see_posts" id="see_posts" value="1" placeholder="psts" min="1">
+                <div class="quantity-nav">
+                  <div class="quantity-button quantity-up">+</div>
+                  <div class="quantity-button quantity-down">-</div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="mb-3 row" style="margin-top: -4px;">
+              <label class="col-sm-9 col-form-label">{{text.select_reaction}}: </label>
+              <div class="col-sm-2" style="width: 135px;">
+                  <select id="selected_reactions" multiple="multiple">
+                      <option value="love">❤</option>
+                      <option value="good">👍</option>
+                      <option value="fire">🔥</option>
+                      <option value="party">🎉</option>
+                      <option value="lovesmile">🥰</option>
+                      <option value="smiling">😁</option>
+                      <option value="thinking">🤔</option>
+                      <option value="sadface">😥</option>
+                      <option value="explore">🤯</option>
+                      <option value="vomiting">🤮</option>
+                      <option value="screaming">😱</option>
+                      <option value="bad">👎</option>
+                  </select>
+                  
+              </div>
+          </div>
+  
+          <input id="select_reactions_input" name="selected_reactions" style="display: none"/>
+  
+          <div class="row" id="leave_group_element" style="margin-bottom: -15px;">
+            <div class="col-7">
+                {{text.leave_group}}
+            </div>
+            <div class="col" style="display: flex;justify-content: center;margin-left: 120px;">
+                <input type='checkbox' style="margin-left: 40px;" class='ios8-switch' id='leave' name='leave' value='0'>
+                <label for='leave'>&nbsp;</label> <br>
+            </div>
+        </div> <br>
+  
+        <div class="row" id="real_time_element" style="margin-bottom: -15px;">
+          <div class="col-7">
+              {{text.real_time}}
+          </div>
+          <div class="col" style="display: flex;justify-content: center;margin-left: 120px;">
+              <input type='checkbox' style="margin-left: 40px;" class='ios8-switch' id='real_time' name='real_time' value='0'>
+              <label for='real_time'>&nbsp;</label> <br>
+          </div>
+      </div> <br>
+      
+            <div class="mb-3 row" style="width: 104.5%;">
+              <label id="show_accounts_counts" class="col-sm-9 col-form-label">{{text.c_accounts}} </label>
+              <div class="col-sm-3">
+                <button style="float: right" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  {{text.choose}}
+                </button>
+              </div>
+            </div>
+  
+            {{ initialAccountsTable(accounts, text) }}
+            
+      </div>
+      <button type="submit" class="btn start-button btn-lg">{{text.start}}</button>
+    </div>
+  </div>
+</div>
+</form>
+
+{{ initialLoggingField(text) }}
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+  <div id="script_ending" style="background-color:#D1E7DD; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+          <div class="toast-body">
+              {{text.script_ending}}
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+  </div>
+</div>
+<script>
+  const workWithoutProxy = `{{working_without_proxy}}` == "True"
+</script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/logging.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/reaction_booster.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/accounts_filter.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/accounts_table.js') }}"></script>
+{% endblock %}

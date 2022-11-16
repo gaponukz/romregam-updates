@@ -1,0 +1,177 @@
+{% from 'accounts_table.html' import initialAccountsTable %}
+{% from 'accounts_statistics.html' import initialAccountsStatistics %}
+{% from 'logging_field.html' import initialLoggingField %}
+
+{% extends "base.html" %}
+
+{% block content %}
+{{ initialAccountsStatistics(accounts_status, text) }}
+
+<div class="row">
+  <div class="col">
+    <form action="/chat_parser" method="POST" id="chat_parser">
+      <div class="card shadow bg-body">
+        <div class="card-body">
+          <div class="container" style="padding-left: 0px; padding-right: 0px;">
+            <div class="mb-3">
+              <h5>{{text.keyword_list}} <label id="keyword_number"></label></h5>
+  
+              <div class="custom-file">
+                <input name="file_list"  type="file" class="custom-file-input" id="customFile">
+                <label class="custom-file-label" for="customFile">{{text.load_keyword}}</label>
+              </div>
+              
+              <script>
+                // Add the following code if you want the name of the file appear on select
+                $(".custom-file-input").on("change", function() {
+                  let fileName = $(this).val().split("\\").pop();
+                  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+  
+                  let file = new FileReader()
+                  file.onload =() => {
+                    document.querySelector("#text_list").value = file.result;
+                  }
+  
+                  file.readAsText(this.files[0]);
+  
+                });
+              </script>
+            </div>
+            <div class="form-floating">
+              <textarea name="text_list" id="text_list" class="form-control" style="height: 405px"> {{previous_setting.keywords}} </textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card shadow bg-body">
+        <div class="card-body">
+          <h5 style="padding-bottom: 20px;">{{text.chat_parser_settings}}</h5>
+          <div class="row">
+            <div class="col">
+              {{text.parse_channels}}
+            </div>
+            <div class="col" style="text-align: end;padding-right: 45px;">
+              <input type='checkbox' class='ios8-switch' id='channels' name='channels' value='0'>
+              <label for='channels'>&nbsp;</label> <br>
+            </div>
+          </div> <br>
+  
+          <div class="row">
+            <div class="col">
+              {{text.alphabet}}
+            </div>
+            <div class="col" style="text-align: end;padding-right: 45px;">
+              <input type='checkbox' class='ios8-switch' id='alphabet' name='alphabet' value="0">
+              <label for='alphabet'>&nbsp;</label> <br>
+            </div>
+          </div> <br>
+  
+          <div class="row">
+            <div class="col">
+              {{text.double_alphabet}}
+            </div>
+            <div class="col" style="text-align: end;padding-right: 45px;">
+              <input type='checkbox' class='ios8-switch' id='double_alphabet' name='double_alphabet' value="0">
+              <label for='double_alphabet'>&nbsp;</label> <br>
+            </div>
+          </div> <br>
+          
+          <div class="row">
+            <div class="col">
+              {{text.combine_keywords}}
+            </div>
+            <div class="col" style="text-align: end;padding-right: 45px;">
+              <input type='checkbox' class='ios8-switch' id='kombine' name='kombine' value='0'>
+              <label for='kombine'>&nbsp;</label> <br>
+            </div>
+          </div> <br>
+  
+          <div class="mb-3 row" style="width: 114%;">
+            <label class="col-sm-9 col-form-label">{{text.timeout_keywords}}: </label>
+            <div class="col-sm-2">
+                <div class="quantity" style="float: right">
+                    <input type="number" class="form-control" name="keywords_timeout" id="keywords_timeout" value="1" placeholder="sec" min="1" step="1">
+                    <div class="quantity-nav">
+                        <div class="quantity-button quantity-up">+</div>
+                        <div class="quantity-button quantity-down">-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+          <div class="mb-3 row" style="width: 104.5%;">
+            <label id="show_accounts_counts" class="col-sm-9 col-form-label">{{text.c_accounts}} </label>
+            <div class="col-sm-3">
+                <button style="float: right" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  {{text.choose}}
+                </button>
+                </div>
+            </div>
+  
+          {{ initialAccountsTable(accounts, text) }}
+
+          <div class="row" style="margin-top: 12px;">
+            <label class="col-sm-9 col-form-label">{{text.save_in_folder}}: </label>
+
+            <div class="col-sm-3" style="padding-left: 60px;">
+                <button id="download_result" type="button" style="height: 38px;" class="btn btn-outline-primary">
+                    <div class="stage" style="width: 53px;">
+                        <div class="dot-flashing"></div>
+                    </div>
+                    <label id="select_text" style="display: none;">&nbsp;{{text.select}}&nbsp;</label>
+                </button>
+            </div>
+        </div>
+            
+        </div>
+        <button type="submit" id="start_form" class="btn start-button btn-lg">{{text.start}}</button>
+      </div>
+    </div>
+</div>
+
+</form> 
+
+{{ initialLoggingField(text) }}
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+  <div id="no_selected_accounts" style="background-color:#F8D7DA; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+          <div class="toast-body">
+              {{text.forgot_accounts}}
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+  </div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+  <div id="forgot_keywords" style="background-color:#F8D7DA; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+          <div class="toast-body">
+              {{text.forgot_keywords}}
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+  </div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+  <div id="script_ending" style="background-color:#D1E7DD; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+          <div class="toast-body">
+              {{text.script_ending}}
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+  </div>
+</div>
+<script>
+  const workWithoutProxy = `{{working_without_proxy}}` == "True"
+</script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/logging.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/chat_parser.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/accounts_filter.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/accounts_table.js') }}"></script>
+{% endblock %}
