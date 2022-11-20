@@ -1,0 +1,109 @@
+{% macro initialAccountsStatistics(accounts_status, text) %}
+<div class="card shadow bg-body" style="margin-bottom: 20px;">
+    <div class="card-body" style="padding-top: 22px;padding-bottom: 13px;">
+        <div class="row">
+            <div class="col">
+                <div class="row" style="border-right: 3px rgba(0, 0, 0, 0.03) solid;">
+                    <div class="col-4"><h2 class="text-primary card-title" style="text-align: right;"><label id="active_accounts_number">0</label></h2></div>
+                    <div class="col">
+                        <div style="text-align: right;    margin-right: 9%;">
+                            {{text.active_acconts}}<br>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" style="margin-right: 84px;margin-top: -10px;" class="text-primary bi bi-dot" viewBox="0 0 16 16">
+                                <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row" style="border-right: 3px rgba(0, 0, 0, 0.03) solid;">
+                    <div class="col-4"><h2 class="text-success card-title" style="text-align: right;"><label id="active_proxies_number">0</label></h2></div>
+                    <div class="col">
+                        <div style="text-align: right;    margin-right: 9%;">
+                            {{ text.active_proxies }}<br>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" style="margin-right: 74px;margin-top: -10px;" class="text-success bi bi-dot" viewBox="0 0 16 16">
+                                <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row" style="border-right: 3px rgba(0, 0, 0, 0.03) solid;">
+                    <div class="col-4"><h2 class="text-warning card-title" style="text-align: right;"><label id="three_day_number">0</label></h2></div>
+                    <div class="col">
+                        <div style="text-align: right;    margin-right: 9%;">
+                            {{ text.untouched_acconts }}<br>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" style="margin-right: 101px;margin-top: -10px;" class="text-warning bi bi-dot" viewBox="0 0 16 16">
+                                <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="col-4"><h2 class="text-info card-title" style="text-align: right;"><label id="archive_number"></label></h2></div>
+                    <div class="col">
+                        <div style="text-align: right;    margin-right: 9%;">
+                            {{ text.archive_acconts }}<br>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" style="margin-right: 111px;margin-top: -10px;" class="text-info bi bi-dot" viewBox="0 0 16 16">
+                                <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const activeAccontsNumber = "{{accounts_status.active_accounts}}" // active_accounts_number
+    const activeProxiesNumber = "{{accounts_status.active_proxies}}" // active_proxies_number
+    const threeDay = "{{accounts_status.three_day}}" // three_day_number
+    const archiveAccountsNumber = "{{accounts_status.archive}}" // archive_number
+
+    let accountsNumber = 0
+    let proxiesNumber = 0
+    let threeDayNumber = 0
+    let archiveNumber = 0
+
+    const activeAccontsInterval = setInterval(() => {
+        document.getElementById("active_accounts_number").textContent = accountsNumber
+
+        if (accountsNumber == activeAccontsNumber) {
+            clearInterval(activeAccontsInterval)
+        }
+        accountsNumber += 1
+    }, 100)
+
+    const activeProxiesInterval = setInterval(() => {
+        document.getElementById("active_proxies_number").textContent = proxiesNumber
+
+        if (proxiesNumber == activeProxiesNumber) {
+            clearInterval(activeProxiesInterval)
+        }
+        proxiesNumber += 1
+    }, 100)
+
+    const threeDayInterval = setInterval(() => {
+        document.getElementById("three_day_number").textContent = threeDayNumber
+
+        if (threeDayNumber == threeDay) {
+            clearInterval(threeDayInterval)
+        }
+        threeDayNumber += 1
+    }, 100)
+
+    const archiveAccountsInterval = setInterval(() => {
+        document.getElementById("archive_number").textContent = archiveNumber
+
+        if (archiveNumber == archiveAccountsNumber) {
+            clearInterval(archiveAccountsInterval)
+        }
+        archiveNumber += 1
+    }, 100)
+
+
+</script>
+{% endmacro %}

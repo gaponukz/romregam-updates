@@ -1,0 +1,182 @@
+{% extends "ai_worker.html" %} {% block worker_settings %}
+
+<div class="modal fade" id="update_text_modal" tabindex="-1" aria-labelledby="update_text_modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 780px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                Working with text
+                <button type="button" id="close_modal" style="display: none" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <button id="bolt" style="padding-top: 1px;padding-bottom: 1px;" type="button" class="btn start-button btn-sm"> &nbsp; <img height="20px" width="20px" src="https://img.icons8.com/fluency-systems-filled/48/ffffff/bold.png"> &nbsp; </button>                &nbsp;
+                <button id="italic" style="padding-top: 1px;padding-bottom: 1px;" type="button" class="btn start-button btn-sm"> &nbsp; <img height="20px" width="20px" src="https://img.icons8.com/fluency-systems-filled/48/ffffff/italic.png"> &nbsp; </button>                &nbsp;
+                <button id="spoiler" style="padding-top: 1px;padding-bottom: 1px;" type="button" class="btn start-button btn-sm"> &nbsp; <img height="20px" width="20px" src="https://img.icons8.com/fluency-systems-filled/24/ffffff/monospaced-font.png"> &nbsp; </button>                &nbsp;
+                <button id="code" style="padding-top: 1px;padding-bottom: 1px;" type="button" class="btn start-button btn-sm"> &nbsp; <img height="20px" width="20px" src="https://img.icons8.com/fluency-systems-filled/24/ffffff/monospaced-font.png"> &nbsp; </button>                &nbsp;
+                <button id="url" style="padding-top: 1px;padding-bottom: 1px;" type="button" class="btn start-button btn-sm"> &nbsp; <img height="20px" width="20px" src="https://img.icons8.com/fluency-systems-filled/48/ffffff/add-font.png"> &nbsp; </button>                &nbsp;
+                <button id="clear" style="padding-top: 1px;padding-bottom: 1px;" type="button" class="btn start-button btn-sm"> &nbsp; <img height="20px" width="20px" src="https://img.icons8.com/fluency-systems-filled/100/ffffff/delete-forever.png"> &nbsp; </button>                &nbsp;
+
+                <br>
+                <textarea id="message_input" name="message_input" style="height: 300px;margin-top: 10px;" class="form-control"></textarea>
+            </div>
+            <button type="button" id="submit_update_input_text" style="margin: -1px" class="btn start-button btn-lg">Okey</button>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="padding-left: 60px;">
+    <div>
+        <a href="#" class="btn bg-primary placeholder col-4 shadow c-message c-first" aria-hidden="true" style="height: 30px;padding: 1px;">
+            First message
+        </a>
+        <a href="#" class="btn bg-primary placeholder col-4 shadow c-line" aria-hidden="true" style="padding: 0px; margin-right: -5px;margin-left: -5px;"></a>
+        <a href="#" class="btn bg-primary placeholder col-4 shadow c-message" aria-hidden="true" style="height: 30px;padding: 1px;">
+            Middle message
+        </a>
+        <a href="#" class="btn bg-primary placeholder col-4 shadow c-line" aria-hidden="true" style="padding: 0px; margin-right: -5px;margin-left: -5px;"></a>
+        <a href="#" class="btn bg-primary placeholder col-4 shadow c-message c-last" aria-hidden="true" style="height: 30px;padding: 1px;">
+            Commercial offer
+        </a> <br> <br>
+    </div>
+    <form action="/ai_worker_commercial_offer" method="POST" id="ai_worker_commercial_offer">
+        <div class="row-container">
+            <div class="col-container">
+                <input name="first_message" data-bs-toggle="modal" data-bs-target="#update_text_modal" class="form-control edit_with_modal" style="width: 70%; margin: auto; display: block;"> <br>
+                <input name="first_message" data-bs-toggle="modal" data-bs-target="#update_text_modal" class="form-control edit_with_modal" style="width: 70%; margin: auto; display: block;"> <br>
+
+                <div id="first_message_hidden_input" style="display: none;"><input data-bs-toggle="modal" data-bs-target="#update_text_modal" name="first_message" class="form-control edit_with_modal" style="width: 70%; margin: auto; display: block;"> <br> </div>
+                <div id="first_message_hidden_input" style="display: none;"><input data-bs-toggle="modal" data-bs-target="#update_text_modal" name="first_message" class="form-control edit_with_modal" style="width: 70%; margin: auto; display: block;"> <br> </div>
+                <div id="first_message_hidden_input" style="display: none;"><input data-bs-toggle="modal" data-bs-target="#update_text_modal" name="first_message" class="form-control edit_with_modal" style="width: 70%; margin: auto; display: block;"> <br> </div>
+                <div id="first_message_hidden_input" style="display: none;"><input data-bs-toggle="modal" data-bs-target="#update_text_modal" name="first_message" class="form-control edit_with_modal" style="width: 70%; margin: auto; display: block;"> <br> </div>
+
+                <button type="button" id="add_first_message" class="btn btn-outline-secondary stripped-button">+</button>
+            </div>
+            <div class="col">
+                <input data-bs-toggle="modal" data-bs-target="#update_text_modal" name="middle_message" class="form-control edit_with_modal" style="width: 70%; margin: auto; display: block;"> <br>
+                <input data-bs-toggle="modal" data-bs-target="#update_text_modal" name="middle_message" class="form-control edit_with_modal" style="width: 70%; margin: auto; display: block;"> <br>
+
+                <div id="middle_message_hidden_input" style="display: none;"><input data-bs-toggle="modal" data-bs-target="#update_text_modal" name="middle_message" class="form-control edit_with_modal" style="width: 70%; margin: auto; display: block;"> <br> </div>
+                <div id="middle_message_hidden_input" style="display: none;"><input data-bs-toggle="modal" data-bs-target="#update_text_modal" name="middle_message" class="form-control edit_with_modal" style="width: 70%; margin: auto; display: block;"> <br> </div>
+                <div id="middle_message_hidden_input" style="display: none;"><input data-bs-toggle="modal" data-bs-target="#update_text_modal" name="middle_message" class="form-control edit_with_modal" style="width: 70%; margin: auto; display: block;"> <br> </div>
+                <div id="middle_message_hidden_input" style="display: none;"><input data-bs-toggle="modal" data-bs-target="#update_text_modal" name="middle_message" class="form-control edit_with_modal" style="width: 70%; margin: auto; display: block;"> <br> </div>
+
+                <button type="button" id="add_middle_message" class="btn btn-outline-secondary stripped-button">+</button>
+            </div>
+            <div class="col">
+                <input name="commercial_offer" data-bs-toggle="modal" data-bs-target="#update_text_modal" class="form-control edit_with_modal" style="width: 70%; margin: auto; display: block;"> <br>
+                <input name="commercial_offer" data-bs-toggle="modal" data-bs-target="#update_text_modal" class="form-control edit_with_modal" style="width: 70%; margin: auto; display: block;"> <br>
+
+                <div id="commercial_offer_hidden_input" style="display: none;"><input data-bs-toggle="modal" data-bs-target="#update_text_modal" name="commercial_offer" class="form-control edit_with_modal" style="width: 70%; margin: auto; display: block;"> <br> </div>
+                <div id="commercial_offer_hidden_input" style="display: none;"><input data-bs-toggle="modal" data-bs-target="#update_text_modal" name="commercial_offer" class="form-control edit_with_modal" style="width: 70%; margin: auto; display: block;"> <br> </div>
+                <div id="commercial_offer_hidden_input" style="display: none;"><input data-bs-toggle="modal" data-bs-target="#update_text_modal" name="commercial_offer" class="form-control edit_with_modal" style="width: 70%; margin: auto; display: block;"> <br> </div>
+                <div id="commercial_offer_hidden_input" style="display: none;"><input data-bs-toggle="modal" data-bs-target="#update_text_modal" name="commercial_offer" class="form-control edit_with_modal" style="width: 70%; margin: auto; display: block;"> <br> </div>
+
+                <button type="button" id="add_commercial_offer" class="btn btn-outline-secondary stripped-button">+</button>
+            </div>
+        </div> <br> <br> <br>
+    </form>
+</div>
+<script>
+    let lastElement
+
+    for (const element of document.querySelectorAll('.edit_with_modal')) {
+        element.onclick = () => {
+            lastElement = element
+            document.getElementById("message_input").value = element.value
+        }
+    }
+
+    document.getElementById(`submit_update_input_text`).onclick = () => {
+        lastElement.value = document.getElementById("message_input").value
+
+        document.getElementById("message_input").value = ""
+        document.getElementById('close_modal').click()
+    }
+
+    document.getElementById("clear").onclick = () => {
+        document.getElementById("message_input").value = ""
+    }
+
+    document.getElementById("bolt").onclick = () => {
+        let message_input = document.getElementById("message_input")
+        let message_len = message_input.value.length
+
+        document.getElementById("message_input").value = `${message_input.value}** **`
+        document.getElementById("message_input").setSelectionRange(message_len + 2, message_len + 3)
+        document.getElementById("message_input").focus()
+    }
+
+    document.getElementById("italic").onclick = () => {
+        let message_input = document.getElementById("message_input")
+        let message_len = message_input.value.length
+
+        document.getElementById("message_input").value = `${message_input.value}__ __`
+        document.getElementById("message_input").setSelectionRange(message_len + 2, message_len + 3)
+        document.getElementById("message_input").focus()
+    }
+
+    document.getElementById("spoiler").onclick = () => {
+        let message_input = document.getElementById("message_input")
+        let message_len = message_input.value.length
+
+        document.getElementById("message_input").value = `${message_input.value}|| ||`
+        document.getElementById("message_input").setSelectionRange(message_len + 2, message_len + 3)
+        document.getElementById("message_input").focus()
+    }
+
+    document.getElementById("code").onclick = () => {
+        let message_input = document.getElementById("message_input")
+        let message_len = message_input.value.length
+
+        document.getElementById("message_input").value = message_input.value + "` `"
+        document.getElementById("message_input").setSelectionRange(message_len + 1, message_len + 2)
+        document.getElementById("message_input").focus()
+    }
+
+    document.getElementById("url").onclick = () => {
+        let message_input = document.getElementById("message_input")
+        let message_len = message_input.value.length
+
+        message_input.value += "[ ](https://example.com)"
+
+        document.getElementById("message_input").setSelectionRange(message_len + 1, message_len + 2)
+        document.getElementById("message_input").focus()
+    }
+
+    document.getElementById(`add_first_message`).onclick = () => {
+        let inputs = document.querySelectorAll(`#first_message_hidden_input`)
+
+
+        for (let input of inputs) {
+            if (input.style.display == "none") {
+                input.style.removeProperty("display")
+                break;
+            }
+        }
+    }
+
+    document.getElementById(`add_middle_message`).onclick = () => {
+        let inputs = document.querySelectorAll(`#middle_message_hidden_input`)
+
+
+        for (let input of inputs) {
+            if (input.style.display == "none") {
+                input.style.removeProperty("display")
+                break;
+            }
+        }
+    }
+
+    document.getElementById(`add_commercial_offer`).onclick = () => {
+        let inputs = document.querySelectorAll(`#commercial_offer_hidden_input`)
+
+
+        for (let input of inputs) {
+            if (input.style.display == "none") {
+                input.style.removeProperty("display")
+                break;
+            }
+        }
+    }
+</script>
+{% endblock %}

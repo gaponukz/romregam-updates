@@ -1,0 +1,305 @@
+{% from 'accounts_table.html' import initialAccountsTable %}
+{% from 'logging_field.html' import initialLoggingField %}
+
+{% extends "base.html" %} {% block content %}
+
+<form action="/channel_clonner" method="POST" id="channel_clonner">
+    <input type="hidden" name="selected_account" id="selected_account" value="" />
+    <input type="hidden" name="selected_to_channels" id="selected_to_channels" value="" />
+    <input type="hidden" name="selected_from_channels" id="selected_from_channels" value="" />
+
+    <div class="row">
+        <div class="col">
+            <div class="card shadow bg-body" style="border-radius: 5px 5px 0px 0px;">
+                <div class="card-body" style="padding: 0px">
+                    <nav class="navbar navbar-expand-lg navbar-primary bg-primary" style="padding: 0px; border-radius: 5px 5px 0px 0px;">
+                        <div class="collapse navbar-collapse" id="navbarText">
+                            <p style="padding: 4px; margin-left: 15px; font-size: 20px; color: white; margin-bottom: 0px;">{{text.choose_accounts}}</p>
+                        </div>
+                    </nav>
+                    <div class="container-fluid" style="margin-top: 10px; padding-right: 0px;">
+                        <div style="position:relative;">
+                            <div style="overflow:scroll;padding-right: 7px;height:150px; margin-left: -10px; margin-top: -10px;" class="scroll_element">
+                                <table id="clients_table" style="width: 98%; margin-top: 10px;" class="table table-bordered table-sm">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                                <button type="button" style="border-color: #ced4da !important;width: 98%; margin-top: -15px; margin-left: 0px;margin-bottom: 5px;" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-outline-secondary shadow-none">+</button>
+
+                                {{ initialAccountsTable(accounts, text) }}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card shadow bg-body" style="border-radius: 5px 5px 0px 0px;">
+            <div class="card-body" style="padding: 0px">
+                <nav class="navbar navbar-expand-lg navbar-primary bg-primary" style="padding: 0px; border-radius: 5px 5px 0px 0px;">
+                    <div class="collapse navbar-collapse" id="navbarText">
+                        <p style="padding: 4px;margin-left: 15px; color: white; font-size: 20px; margin-bottom: 0px;">{{text.channels_where_post}}</p>
+                    </div>
+                </nav>
+                <div class="container-fluid" style="margin-top: 10px; padding-right: 0px;">
+                    <div style="position:relative;">
+                        <div style="overflow:scroll;height:150px; margin-left: -10px; margin-top: -10px;" class="scroll_element">
+                            <table id="to_channels_table" style="width: 98%; margin-top: 10px;" class="table table-bordered table-sm">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card shadow bg-body" style="border-radius: 5px 5px 0px 0px;">
+            <div class="card-body" style="padding: 0px">
+                <nav class="navbar navbar-expand-lg navbar-primary bg-primary" style="padding: 0px; border-radius: 5px 5px 0px 0px;">
+                    <div class="collapse navbar-collapse" id="navbarText">
+                        <p style="padding: 4px;margin-left: 15px; color: white; font-size: 20px; margin-bottom: 0px;">{{text.channels_post_from}}</p>
+                    </div>
+                </nav>
+                <div class="container-fluid" style="margin-top: 10px; padding-right: 0px;">
+                    <div style="position:relative;">
+                        <div style="overflow:scroll;padding-right: 7px;height:150px; margin-left: -10px; margin-top: -10px;" class="scroll_element">
+                            <table id="from_channels_table" style="width: 98%; margin-top: 10px;" class="table table-bordered table-sm">
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <div class="input-group mb-3" style="width: 98%; margin-left: 0px;margin-top: -15px;">
+                                <input id="channels_from_input" type="text" class="form-control shadow-none" aria-describedby="add_channels_from">
+                                <button class="btn btn-outline-primary shadow-none" type="button" id="add_channels_from">{{text.add_channel}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="row" style="margin-top: 25px">
+        <div class="col">
+            <div style="overflow:scroll;height: 570px;" class="card shadow bg-body scroll_element">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <a href="#" class="btn bg-primary placeholder col-4 shadow" aria-hidden="true" style="font-size: 18px;padding: 4px; width: 100%;">
+              {{text.enter_keyword}}
+            </a> <br> <br>
+                            <input id="keyword_from" name="keyword_from" class="form-control"> <br>
+                            <input id="keyword_from" name="keyword_from" class="form-control"> <br>
+
+                            <div id="keyword_from_body"></div>
+
+                        </div>
+                        <div class="col">
+                            <a href="#" class="btn bg-primary placeholder col-4 shadow" aria-hidden="true" style="font-size: 18px;padding: 4px; width: 100%;">
+              {{text.replace_keyword}}
+            </a> <br> <br>
+                            <input id="keyword_to" name="keyword_to" class="form-control"> <br>
+                            <input id="keyword_to" name="keyword_to" class="form-control"> <br>
+
+                            <div id="keyword_to_body"></div>
+
+                        </div>
+                        <button type="button" id="add_keyword" style="width: 96%;" class="btn btn-outline-secondary stripped-button shadow-none">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card shadow bg-body">
+                <div class="card-body">
+                    <h5 class="card-title">{{text.h_settings}}</h5>
+
+                    <button id="whitelist" name="whitelist" style="background-color: #81dfcc; color: white;" type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#image_modal"> &nbsp Keyword whitelist &nbsp </button> &nbsp;
+                    <button id="blacklist" name="blacklist" style="background-color: #9d90e3; color: white;" type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#image_modal"> &nbsp Keyword blacklist &nbsp </button> &nbsp;
+
+                    <input type="hidden" name="selected_list" id="selected_list" value="" />
+                    <textarea id="keywords" name="keywords" style="height: 175px;margin-top: 10px;" class="form-control"></textarea>
+
+                    <div class="row" style="margin-top: 30px;">
+                        <br>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-8">
+                                    {{text.remove_links}}
+                                </div>
+                                <div class="col" align="right">
+                                    <input type='checkbox' class='ios8-switch' name="links" id='links'>
+                                    <label for='links'>&nbsp;</label> <br>
+                                </div>
+                            </div> <br>
+
+                            <div class="row" style="margin-top: -10px;">
+                                <div class="col-8">
+                                    {{text.clone_video}}
+                                </div>
+                                <div class="col" align="right">
+                                    <input type='checkbox' class='ios8-switch' name="video" id='video'>
+                                    <label for='video'>&nbsp;</label> <br>
+                                </div>
+                            </div> <br>
+
+                            <div class="row" style="margin-top: -10px;">
+                                <div class="col-8">
+                                    {{text.clone_photo}}
+                                </div>
+                                <div class="col" align="right">
+                                    <input type='checkbox' class='ios8-switch' name="photo" id='photo'>
+                                    <label for='photo'>&nbsp;</label> <br>
+                                </div>
+                            </div> <br>
+
+                            <div class="row" style="margin-top: -10px;">
+                                <div class="col-8">
+                                    {{text.clone_files}}
+                                </div>
+                                <div class="col" align="right">
+                                    <input type='checkbox' class='ios8-switch' name="files" id='files'>
+                                    <label for='files'>&nbsp;</label> <br>
+                                </div>
+                            </div> <br>
+                        </div>
+
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-8">
+                                    {{text.delete_usernames}}
+                                </div>
+                                <div class="col" align="right">
+                                    <input type='checkbox' class='ios8-switch' name='usernames' id='_usernames'>
+                                    <label for='_usernames'>&nbsp;</label> <br>
+                                </div>
+                            </div> <br>
+
+                            <div class="row" style="margin-top: -10px;">
+                                <div class="col-8">
+                                    {{text.clone_text}}
+                                </div>
+                                <div class="col" align="right">
+                                    <input type='checkbox' class='ios8-switch' name='text' id='text'>
+                                    <label for='text'>&nbsp;</label> <br>
+                                </div>
+                            </div> <br>
+
+                        </div>
+                    </div>
+
+                </div>
+                <button type="submit" class="btn start-button btn-lg">{{text.start}}</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+{{ initialLoggingField(text) }}
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+    <div id="no_selected_accounts" style="background-color:#F8D7DA; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                {{text.forgot_accounts}}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+    <div id="problem_with_client" style="background-color:#F8D7DA; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                {{text.problem_with_client}}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 99">
+    <div id="script_ending" style="background-color:#D1E7DD; width: 600px" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                {{text.script_ending}}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+<script>
+    
+
+    const accounts = JSON.parse(`{{accounts|tojson}}`)
+    const workWithoutProxy = `{{working_without_proxy}}` == "True"
+
+    document.querySelector("#navbarText > span > button.btn.btn-success.btn-sm").onclick = () => {
+        let selected = document.getElementById("accounts").value.split(' ')
+        $("#clients_table tr").remove()
+        let selected_accounts = []
+
+        let cookie_setting = {}
+
+        if (!document.cookie) {cookie_setting = {channel_clonner: {}}}
+        else {cookie_setting = JSON.parse(document.cookie)}
+
+        if (!cookie_setting.channel_clonner) {cookie_setting.channel_clonner = {}}
+
+        cookie_setting.channel_clonner.clients = []
+
+        for (index of selected) {
+            let account = accounts.filter(account => account.phone == index)[0]
+            if (!account) {
+                continue
+            }
+            let tr = `
+            <tr>
+                <td style="border-right: none" ><img class="big-avatar" src="${account.photo}"/></td>
+                <td style="border-left: none;border-right: none">
+                    <h6 class="card-title">${account.name}</h6>
+                    <h6 class="card-subtitle mb-2">${account.phone}</h6>
+                </td>
+                <td style="border-left: none"><button type="button" id="remove" class="btn-close" aria-label="Close"></button></td>
+            </tr>`
+
+            $("#clients_table tbody").append(tr) 
+
+            cookie_setting.channel_clonner.clients.push({
+                photo: account.photo,
+                name: account.name,
+                phone: account.phone,
+                selected: false
+            })
+
+            let table = document.querySelectorAll("#clients_table > tbody > tr")
+            let delete_indexes = []
+
+            for (let index = 0; index < table.length; index++) {
+                for (let jndex = index; jndex < table.length; jndex++) {
+                    if (index != jndex && (table[index].textContent == table[jndex].textContent)) {
+                        delete_indexes.push(index)
+                    }
+                }
+            }
+
+            for (index of delete_indexes) {
+                table[index].remove()
+            }
+        }
+
+        cookie_setting.channel_clonner.clients = [...new Set(cookie_setting.channel_clonner.clients)]
+
+        document.cookie = JSON.stringify(cookie_setting)
+    }
+</script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/logging.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/accounts_table.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/accounts_filter.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'scripts/channel_clonner.js') }}"></script>
+{% endblock %}
