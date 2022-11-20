@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col">
+    <div class="row">
+        <div class="col circle-wrapper violet-line">
+            <a href="/messages_parser" class="btn circle placeholder {% if urls.prev == "#" %} pulse-round-violet {% else %} shadow {% endif %}" style="background-color: #D98CFF;" aria-hidden="true"></a>
+            <div class="circle-name" style="color: #D98CFF;">{{text.collecting_chat_history}}</div>
+        </div>
+        <div class="col circle-wrapper blue2-line">
+            <a href="/chat_messages_editor" class="btn circle placeholder {% if urls.prev == "/messages_parser" %} pulse-round-blue {% else %} shadow {% endif %}" style="background-color: #5092BA;" aria-hidden="true"></a>
+            <div class="circle-name" style="color: #5092BA;" >{{text.messages_editor}}</div>
+        </div>
+        <div class="col circle-wrapper green2-line">
+            <a href="/prepare_chat_accounts" class="btn circle placeholder {% if urls.prev == "/chat_messages_editor" %} pulse-round-green {% else %} shadow {% endif %}" style="background-color: #00C2A1" aria-hidden="true"></a>
+            <div class="circle-name" style="color: #00C2A1;" >{{text.account_preparation}}</div>
+        </div>`
+        <div class="col circle-wrapper yellow2-line">
+            <a href="/chat_posting" class="btn circle placeholder {% if urls.next == "#" %} pulse-round-yellow {% else %} shadow {% endif %}" style="background-color: #FFB500;" aria-hidden="true"></a>
+            <div class="circle-name" style="color: #FFB500;" >{{text.posting}}</div>
+        </div>
+    </div> <br> <br> 
+
+
+    <div class="card shadow bg-body" style="border-radius: 5px 5px 5px 5px; margin-bottom: 30px;">
+        <div class="card-body" style="padding: 0px">
+            <nav class="navbar navbar-expand-lg navbar-primary bg-primary" style="padding: 0px; border-radius: 5px 5px 0px 0px;">
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <p style="margin-left: 15px; color: white; font-size:20px; margin-bottom: 0px;">{{ chat_clonner_title }}</p>
+                </div>
+                <span class="navbar-text" style="padding: 5px">
+                    <div class="collapse navbar-collapse" id="navbarText">
+                        <p style="margin-left: 15px; color: white; font-size:20px; margin-bottom: 0px;">{{text.step}} {{ step }}&nbsp &nbsp</p>
+                    </div>
+                </span>
+            </nav> <br>
+            <div id="main_content_block" class="container">
+                {% block clonner_settings %} {% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    
+</script>
+{% endblock %}

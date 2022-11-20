@@ -1,0 +1,154 @@
+{% extends "ai_worker.html" %}
+
+{% block worker_settings %}
+<a href="#" class="btn bg-primary placeholder col-4 shadow" aria-hidden="true" style="width: 200px;height: 30px;padding: 1px;">
+    Load chats or users
+</a>
+<a href="#" class="btn bg-primary placeholder col-4 shadow" aria-hidden="true" style="padding: 0px;width: calc(38% - 145px); margin-right: -5px;margin-left: -5px;"></a>
+<a href="#" class="btn bg-primary placeholder col-4 shadow" aria-hidden="true" style="width: 100px;height: 30px;padding: 1px;">
+    Settings
+</a>  <br> <br>
+<form action="/ai_worker_settings" method="POST" id="ai_worker_settings">
+  <div class="row">
+      <div class="col-5">
+          <div class="card shadow bg-body">
+              <div class="card-body">
+                <div class="container" style="padding-left: 0px; padding-right: 0px;">
+                  <div class="mb-3">
+                        <div class="custom-file" style="margin-top: 10px;">
+                          <input  type="file" class="custom-file-input" id="customFile">
+                          <label class="custom-file-label" for="customFile">Load txt file with usernames</label>
+                        </div>
+                    </div>
+                    <div class="form-floating">
+                      <textarea name="audience" id="audience" class="form-control" style="height: 312px"></textarea>
+                    </div>
+                </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-7">
+          <div class="card shadow bg-body">
+              <div class="card-body">
+                <div class="mb-3 row" style="width: 114%;">
+                  <label class="col-sm-9 col-form-label">Sleep seconds before the start of the threads: </label>
+                  <div class="col-sm-2">
+                    <div class="quantity" style="float: right">
+                      <input type="number" class="form-control" name="sleep_before_thread" value="1" placeholder="sec" min="1"  step="1">
+                      <div class="quantity-nav">
+                        <div class="quantity-button quantity-up">+</div>
+                        <div class="quantity-button quantity-down">-</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+      
+                <div class="row g-3 align-items-center" style="margin-bottom: -10px; width: 112.5%;">
+                  <div class="col-6">
+                    <label class="col-form-label">Delay between messages from</label>
+                  </div>
+                  <div class="col-2">
+                    <div class="quantity">
+                      <input type="number" class="form-control" name="delay_between" value="1" placeholder="sec" min="1"  step="1">
+                      <div class="quantity-nav">
+                        <div class="quantity-button quantity-up">+</div>
+                        <div class="quantity-button quantity-down">-</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-1" style="text-align: center;">
+                    <label class="col-form-label">to</label>
+                  </div>
+                  <div class="col-2">
+                    <div class="quantity" style="float: right">
+                      <input type="number" class="form-control" name="delay_to" value="2" placeholder="sec" min="2"  step="1">
+                      <div class="quantity-nav">
+                        <div class="quantity-button quantity-up">+</div>
+                        <div class="quantity-button quantity-down">-</div>
+                      </div>
+                    </div>
+                  </div>
+                </div> <br>
+      
+                <div class="mb-3 row" style="width: 114%;">
+                  <label class="col-sm-9 col-form-label">How many dialogs to conduct from the account: </label>
+                  <div class="col-sm-2">
+                    <div class="quantity" style="float: right">
+                      <input type="number" class="form-control" name="dialogs_from_account" value="1" placeholder="sec" min="1"  step="1">
+                      <div class="quantity-nav">
+                        <div class="quantity-button quantity-up">+</div>
+                        <div class="quantity-button quantity-down">-</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row g-3 align-items-center" style="display: flex; margin-top: -15px; width: 114%;">
+                  <div class="col-auto">
+                    <label class="col-form-label">Send an middle message after</label>
+                  </div>
+                  <div class="col-auto">
+                    <div class="quantity">
+                      <input type="number" class="form-control" name="middle_message_at" value="1" placeholder="sec" min="1"  step="1">
+                      <div class="quantity-nav">
+                        <div class="quantity-button quantity-up">+</div>
+                        <div class="quantity-button quantity-down">-</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <label style="float: right" class="col-form-label">minutes of ignoring</label>
+                  </div>
+                </div> <br>
+      
+                <div class="mb-3 row" style="margin-top: -8px;">
+                  <label class="col-sm-7 col-form-label">Use a blacklist</label>
+                  <div class="col-sm-4">
+                      <input type='checkbox' class='ios8-switch' name='blacklist' id='blacklist'>
+                      <label for='blacklist'>&nbsp;</label> <br>
+                  </div>
+                </div>
+
+                <div class="mb-3 row">
+                  <label class="col-sm-7 col-form-label">Middle message</label>
+                  <div class="col-sm-4">
+                      <input type='checkbox' class='ios8-switch' name='middle_message_at' id='middle_message'>
+                      <label for='middle_message_at'>&nbsp;</label> <br>
+                  </div>
+                </div>
+
+                <div class="mb-3 row">
+                  <label class="col-sm-7 col-form-label">Commercial offer</label>
+                  <div class="col-sm-4">
+                      <input type='checkbox' class='ios8-switch' name='commercial_offer' id='commercial_offer'>
+                      <label for='commercial_offer'>&nbsp;</label> <br>
+                  </div>
+                </div>
+      
+            </div>
+          </div>
+      </div>
+  </div>
+  <script>
+$(".custom-file-input").on("change", function() {
+    let fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+    let file = new FileReader()
+    file.onload =() => {
+      document.querySelector("#text_list").value = file.result;
+    }
+    file.readAsText(this.files[0]);
+
+    document.getElementById("set_chats").onclick = () => {
+      document.getElementById("type").value = "chat"
+    }
+    document.getElementById("set_users").onclick = () => {
+      document.getElementById("type").value = "user"
+    }
+});
+
+  document.getElementById("fucking_line").style.width = `${0.1953125 * window.screen.width}px`
+  </script>
+</form>
+{% endblock %}
