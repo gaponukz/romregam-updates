@@ -1,3 +1,0 @@
-[Info] Start account (without proxy) - 2022-01-09 21:58:17.286209
-[Info] Accounts(1) complete - 2022-01-09 21:58:17.921236
-[Info] Message sent! - 2022-01-09 21:58:18.541212
